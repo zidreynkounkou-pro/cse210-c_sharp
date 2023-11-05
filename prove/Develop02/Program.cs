@@ -44,8 +44,8 @@ class Program
 
             // Getting the user's input.
             try // Handling format exception.
-            {     string _exception = Console.ReadLine();
-            journal._ex = _exception;
+            {    string _exception = Console.ReadLine();
+                journal._ex = _exception;
                 _toDo = int.Parse(_exception);
 
                 Console.WriteLine();

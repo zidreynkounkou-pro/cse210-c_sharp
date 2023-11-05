@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Collections.Generic;
 
 public class ListingActivity : Activity
 {
@@ -13,30 +15,52 @@ public class ListingActivity : Activity
 
   private List<string> _items = new List<string>{};
 
-  private int _duration;
+  private int _timer;
   
 
-  public ListingActivity(string listingMessage, string activityName, string description) : base(activityName, description)
+  public ListingActivity(string activityName, string description) : base(activityName, description)
   {
-    _items.Add(listingMessage);
+    
   }
+
 
   public ListingActivity(int duration) : base(duration)
   {
-    _duration = duration;
+    _timer = duration;
   }
 
   Random random = new Random();
-  public string RandomPrompt()
+
+  private string RandomPrompt()
   {
     int randomIndex = random.Next(0, _promptList.Count);
     return _promptList[randomIndex];
   }
 
+  public void DisplayRandomPrompt()
+  {
+    
+    DateTime StartTime = DateTime.Now;
+    DateTime endTime = StartTime.AddSeconds(_timer);
+
+    Console.WriteLine("List as many responses you can to the following prompt: \n");
+    Console.WriteLine($"--- {RandomPrompt()} ---\n");
+    Console.Write("You may begin in: ");
+    PausingShowingCountDown();
+    Console.WriteLine();
+
+    while (endTime > DateTime.Now)
+    {
+      string input = Console.ReadLine();
+      _items.Add(input);
+    }
+
+  }
+
   public void DisplayNumberOfItems()
   {
     int numberOfItems = _items.Count;
-    Console.WriteLine($"You have listed {numberOfItems} items.");
+    Console.WriteLine($"\nYou have listed {numberOfItems} items.\n");
   }
 
 }

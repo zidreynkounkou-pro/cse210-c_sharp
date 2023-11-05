@@ -25,12 +25,12 @@ public class Activity {
 
     public void GetReady()
   {
-    Console.WriteLine("\nGet ready...\n");
+    Console.WriteLine("Get ready...\n");
   }
 
   public void DisplayStartingMessage()
   {
-    Console.WriteLine($"Welcome to the {_activityName}\n\n{_description}\n!");
+    Console.WriteLine($"Welcome to the {_activityName}!\n\n{_description}\n");
     Console.WriteLine("How long, in seconds, would you like for your session?");
   }
 

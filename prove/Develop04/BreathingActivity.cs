@@ -7,15 +7,16 @@ public class BreathingActivity : Activity {
   
   private int _timer;
 
-  public BreathingActivity(int timer, string breathIn, string breathOut, string activityName, string description) : base(activityName, description)
+  public BreathingActivity(string activityName, string description) : base(activityName, description)
+  {
+   
+  }
+
+  public BreathingActivity(int breathInDuration, string breathIn, string breathOut, string activityName, string description) : base(activityName, description)
   {
     _breathIn = breathIn;
     _breathOut = breathOut;
-    _timer = timer;
-  }
-
-  public BreathingActivity(int duration) : base(duration)
-  {
+    _timer = breathInDuration;
   }
   
   public void BreathInAndBreathOut()

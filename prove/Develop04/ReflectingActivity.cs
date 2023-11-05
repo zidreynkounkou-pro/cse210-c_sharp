@@ -26,12 +26,10 @@ public class ReflectingActivity : Activity
 
   private int _timer;
 
-
   public ReflectingActivity(string activityName, string description) : base(activityName, description)
   {
     
   }
-
 
   public ReflectingActivity(int duration) : base(duration)
   {
@@ -48,8 +46,6 @@ public class ReflectingActivity : Activity
     return _promptList[_index];
   }
 
-
-
   private string GetRandomQuestion()
   {
     int _index = random.Next(0, _questionsList.Count);
@@ -59,39 +55,29 @@ public class ReflectingActivity : Activity
 
   private void DisplayQuestionPrompt()
   {
-
     DateTime StartTime = DateTime.Now;
     DateTime endTime = StartTime.AddSeconds(_timer);
-
-    
 
     while (endTime > DateTime.Now)
     {
       Console.Write($"> {GetRandomQuestion()} ");
       PausingShowingSpinner();
       Console.WriteLine();
-      
-
     }
     
   }
 
   public void DisplayPrompts()
   {
-    Console.WriteLine($"--- {GetRandomPrompt()} ---");
-    Console.WriteLine("When you have something in mind, press enter to continue.");
+    Console.WriteLine("Consider the following prompt: ");
+    Console.WriteLine($"\n--- {GetRandomPrompt()} ---");
+    Console.WriteLine("\nWhen you have something in mind, press enter to continue.");
     Console.ReadLine();
     Console.WriteLine("Now ponder on each of the following questions as they related to this experience: ");
     Console.Write("You may begin in: ");
     PausingShowingCountDown();
     Console.WriteLine();
     DisplayQuestionPrompt();
-    
-
   }
-
-
-  
-  
 
 }
