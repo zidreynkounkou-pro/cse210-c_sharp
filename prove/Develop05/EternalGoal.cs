@@ -3,7 +3,6 @@ using System.Threading.Channels;
 
 public class EternalGoal : Goal
 {
-  private GoalManager goal = new GoalManager();
   private List<string> _goals = new List<string>{};
   private List<string> _descriptionList = new List<string>{};
   private List<float> _points = new List<float>{};
@@ -51,9 +50,9 @@ public class EternalGoal : Goal
   {
     int goalIndex = _index;
     // Validate the index against the local goals count
-    if (goalIndex >= 1 && goalIndex <= GoalManager.Goals().Count)
+    if (goalIndex >= 1 && goalIndex <= GoalManager.Instance.Goals().Count)
     {
-      EternalGoal selectedGoal = GoalManager.Goals()[goalIndex - 1] as EternalGoal;
+      EternalGoal selectedGoal = GoalManager.Instance.Goals()[goalIndex - 1] as EternalGoal;
       if (selectedGoal != null)
       {
         // Access properties of the specific SimpleGoal instance

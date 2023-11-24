@@ -6,7 +6,6 @@ public class Menus
   private SimpleGoal simple;
   private EternalGoal eternal;
   private ChecklistGoal checklist;
-  private GoalManager goals = new GoalManager();
 
   private List<string> _menuList = new List<string>()
   {
@@ -44,34 +43,34 @@ public class Menus
 
          case 2:
          Console.WriteLine("\nThe goals are:");
-         goals.DisplayAllGoals();
+         GoalManager.Instance.DisplayAllGoals();
          
          break;
 
          case 3:
          Console.WriteLine("What is the goal filename for the goal file?");
          string filename = Console.ReadLine();
-         Goal.Filename(filename);
+         Goal.FilenameForSaving(filename);
          Goal.SaveGoals();
          break;
 
          case 4:
          Console.WriteLine("What is the goal filename for the goal file?");
          string aFilename = Console.ReadLine();
-         Goal.Filename(aFilename);
-         Goal.LoadGoals();
+         GoalManager.Instance.Filename(aFilename);
+         GoalManager.Instance.LoadGoals();
 
          //Goal.Load();
          break;
 
          case 5:
          Console.WriteLine("The goals are: ");
-         goals.DisplayAllGoalsToRecord();
+         GoalManager.Instance.DisplayAllGoalsToRecord();
 
          Console.WriteLine("Which goal did you accomplish?");
          int index = int.Parse(Console.ReadLine());
 
-         Goal goal = GoalManager.Goals()[index -1];
+         Goal goal = GoalManager.Instance.Goals()[index -1];
          if (goal is SimpleGoal)
          {
           simple.GoalIndex(index);
@@ -123,7 +122,7 @@ public class Menus
       
          simple = new SimpleGoal(goalName, description, points);
          simple.WriteGoals();
-         goals.AddGoal(simple);
+         GoalManager.Instance.AddGoal(simple);
         } 
 
         // Eternal Goal.
@@ -138,7 +137,7 @@ public class Menus
 
           eternal = new EternalGoal(goalName, description, points);
           eternal.WriteGoals();
-          goals.AddGoal(eternal);
+          GoalManager.Instance.AddGoal(eternal);
         }
 
         else // Checklist Goal
@@ -156,7 +155,7 @@ public class Menus
 
           checklist = new ChecklistGoal(goalName, description, points, numberTime, bonus);
           checklist.WriteGoals();
-          goals.AddGoal(checklist);
+          GoalManager.Instance.AddGoal(checklist);
 
         }
       break;

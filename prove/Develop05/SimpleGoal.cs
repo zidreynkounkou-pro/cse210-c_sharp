@@ -3,9 +3,8 @@ using System.Threading.Channels;
 
 public class SimpleGoal : Goal
 {
-  private GoalManager goal = new GoalManager();
   private List<string> _descriptionList = new List<string>{};
-  private List<string> _goals = new List<string>{};
+  private static List<string> _goals = new List<string>{};
   private List<float> _points = new List<float>{};
   private string _goal;
   private string _description;
@@ -50,9 +49,9 @@ public class SimpleGoal : Goal
   {
     int goalIndex = _index;
     // Validate the index against the local goals count
-    if (goalIndex >= 1 && goalIndex <= GoalManager.Goals().Count)
+    if (goalIndex >= 1 && goalIndex <= GoalManager.Instance.Goals().Count)
     {
-      SimpleGoal selectedGoal = GoalManager.Goals()[goalIndex - 1] as SimpleGoal;
+      SimpleGoal selectedGoal = GoalManager.Instance.Goals()[goalIndex - 1] as SimpleGoal;
       if (selectedGoal != null)
       {
         // Access properties of the specific SimpleGoal instance
