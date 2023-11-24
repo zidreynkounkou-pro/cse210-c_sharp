@@ -6,6 +6,7 @@ public class Menus
   private SimpleGoal simple;
   private EternalGoal eternal;
   private ChecklistGoal checklist;
+  private GoalManager goals = new GoalManager();
 
   private List<string> _menuList = new List<string>()
   {
@@ -20,43 +21,80 @@ public class Menus
   int input = -1;
   public void MenusMethod()
   {
+    
     while(input != 6)
     {
-      Console.WriteLine("\nYou have 0 points");
-      Console.WriteLine("\nMenu Options: ");
-      for(int i = 0; i < _menuList.Count; i++)
+      try
       {
-        Console.WriteLine($"  {i + 1}. {_menuList[i]}");
+        Console.WriteLine();
+        Console.WriteLine($"You have {Goal.Score()} points.");
+        Console.WriteLine("\nMenu Options: ");
+        for(int i = 0; i < _menuList.Count; i++)
+        {
+          Console.WriteLine($"  {i + 1}. {_menuList[i]}");
+        }
+        Console.WriteLine("Select a choice from a menu:");
+        input = int.Parse(Console.ReadLine());
+
+        switch(input)
+        {
+          case 1:
+          HandleMenuOption(input);
+          break;
+
+         case 2:
+         Console.WriteLine("\nThe goals are:");
+         goals.DisplayAllGoals();
+         
+         break;
+
+         case 3:
+         Console.WriteLine("What is the goal filename for the goal file?");
+         string filename = Console.ReadLine();
+         Goal.Filename(filename);
+         Goal.SaveGoals();
+         break;
+
+         case 4:
+         Console.WriteLine("What is the goal filename for the goal file?");
+         string aFilename = Console.ReadLine();
+         Goal.Filename(aFilename);
+         Goal.LoadGoals();
+
+         //Goal.Load();
+         break;
+
+         case 5:
+         Console.WriteLine("The goals are: ");
+         goals.DisplayAllGoalsToRecord();
+
+         Console.WriteLine("Which goal did you accomplish?");
+         int index = int.Parse(Console.ReadLine());
+
+         Goal goal = GoalManager.Goals()[index -1];
+         if (goal is SimpleGoal)
+         {
+          simple.GoalIndex(index);
+          simple.RecordEvent();
+         }
+         else if (goal is EternalGoal)
+         {
+          eternal.GoalIndex(index);
+          eternal.RecordEvent();
+         }
+         else if (goal is ChecklistGoal)
+         {
+          checklist.GoalIndex(index);
+          checklist.RecordEvent();
+         }
+         break;
+        }
       }
-      Console.WriteLine("Select a choice from a menu:");
-      input = int.Parse(Console.ReadLine());
-
-      switch(input)
+      catch(Exception)
       {
-        case 1:
-        HandleMenuOption(input);
-        break;
-        
-       case 2:
-       Console.WriteLine("\nThe goals are:");
-       Goal.DisplayGoals();
-
-       break;
-
-       case 3:
-       Goal.Save();
-       break;
-
-       case 4:
-       Goal.Load();
-       break;
-
-       case 5:
-       
-       break;
-      };
-    }
-    
+        Console.WriteLine("ERROR! Please, make sure you entered the inspected information and try again!");
+      }
+    } 
   }
 
   private void HandleMenuOption(int option)
@@ -84,8 +122,8 @@ public class Menus
           float points = float.Parse(Console.ReadLine());
       
          simple = new SimpleGoal(goalName, description, points);
-
-  
+         simple.WriteGoals();
+         goals.AddGoal(simple);
         } 
 
         // Eternal Goal.
@@ -99,8 +137,8 @@ public class Menus
           float points = float.Parse(Console.ReadLine());
 
           eternal = new EternalGoal(goalName, description, points);
-  
-        
+          eternal.WriteGoals();
+          goals.AddGoal(eternal);
         }
 
         else // Checklist Goal
@@ -117,10 +155,11 @@ public class Menus
           float bonus = float.Parse(Console.ReadLine());
 
           checklist = new ChecklistGoal(goalName, description, points, numberTime, bonus);
+          checklist.WriteGoals();
+          goals.AddGoal(checklist);
 
         }
       break;
-
     }
   }
 }
