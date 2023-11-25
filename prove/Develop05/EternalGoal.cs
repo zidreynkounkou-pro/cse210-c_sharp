@@ -16,10 +16,6 @@ public class EternalGoal : Goal
     _goalPoints = points;
   }
 
-  public override bool IsCompleted(bool isCompleted)
-    {
-      return isCompleted;
-    }
 
   public override void WriteGoals()
     {
@@ -30,7 +26,7 @@ public class EternalGoal : Goal
 
   public override void DisplayGoals(int index)
   {
-    string completionStatus = IsCompleted(_isCompleted) ? "[X]" : "[ ]" ;
+    string completionStatus = _isCompleted ? "[X]" : "[ ]" ;
     for(int i = 0; i < _goals.Count; i++) 
     {
       Console.WriteLine($"{index}. {completionStatus } {_goals[i]} ({_descriptionList[i]})");
@@ -63,7 +59,7 @@ public class EternalGoal : Goal
         _scores.Add(points);
         Console.WriteLine($"Congratulations! You've completed this goal: {description}. You've earned {points} points");
         Console.WriteLine($"You have now {NowScore()} points.");
-        IsCompleted(false);
+        _isCompleted = false;
       }
     }
     else

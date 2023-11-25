@@ -4,7 +4,7 @@ using System.Threading.Channels;
 public class SimpleGoal : Goal
 {
   private List<string> _descriptionList = new List<string>{};
-  private static List<string> _goals = new List<string>{};
+  private List<string> _goals = new List<string>{};
   private List<float> _points = new List<float>{};
   private string _goal;
   private string _description;
@@ -23,14 +23,10 @@ public class SimpleGoal : Goal
       _points.Add(_goalPoints);
     }
 
-    public override bool IsCompleted(bool isCompleted)
-    {
-      return isCompleted;
-    }
 
   public override void DisplayGoals(int index)
   {
-    string completionStatus = IsCompleted(_isCompleted) ? "[X]" : "[ ]";
+    string completionStatus = _isCompleted ? "[X]" : "[ ]";
     for(int i = 0; i < _goals.Count; i++)
     {
       Console.WriteLine($"{index}. {completionStatus } {_goals[i]} ({_descriptionList[i]})");

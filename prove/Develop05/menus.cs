@@ -50,15 +50,15 @@ public class Menus
          case 3:
          Console.WriteLine("What is the goal filename for the goal file?");
          string filename = Console.ReadLine();
-         Goal.FilenameForSaving(filename);
+         Goal.Filename(filename);
          Goal.SaveGoals();
          break;
 
          case 4:
          Console.WriteLine("What is the goal filename for the goal file?");
          string aFilename = Console.ReadLine();
-         GoalManager.Instance.Filename(aFilename);
-         GoalManager.Instance.LoadGoals();
+         Goal.Filename(aFilename);
+         Goal.LoadGoals();
 
          //Goal.Load();
          break;
@@ -73,25 +73,29 @@ public class Menus
          Goal goal = GoalManager.Instance.Goals()[index -1];
          if (goal is SimpleGoal)
          {
+          
+          simple = goal as SimpleGoal;
           simple.GoalIndex(index);
           simple.RecordEvent();
          }
          else if (goal is EternalGoal)
          {
+          eternal = goal as EternalGoal;
           eternal.GoalIndex(index);
           eternal.RecordEvent();
          }
          else if (goal is ChecklistGoal)
          {
+          checklist = goal as ChecklistGoal;
           checklist.GoalIndex(index);
           checklist.RecordEvent();
          }
          break;
         }
       }
-      catch(Exception)
+      catch(Exception e)
       {
-        Console.WriteLine("ERROR! Please, make sure you entered the inspected information and try again!");
+        Console.WriteLine($"\n{e}\nERROR! Please, make sure you entered the inspected information and try again!");
       }
     } 
   }
@@ -156,7 +160,6 @@ public class Menus
           checklist = new ChecklistGoal(goalName, description, points, numberTime, bonus);
           checklist.WriteGoals();
           GoalManager.Instance.AddGoal(checklist);
-
         }
       break;
     }
