@@ -93,9 +93,9 @@ public class Menus
          break;
         }
       }
-      catch(Exception e)
+      catch(FormatException e)
       {
-        Console.WriteLine($"\n{e}\nERROR! Please, make sure you entered the inspected information and try again!");
+        Console.WriteLine($"\n{e.Message}\nPlease, make sure you enter the expected information and try again!");
       }
     } 
   }

@@ -5,7 +5,13 @@ class Program
 {
     static void Main(string [] args)
     {
-        Console.Title = "Breathing Animation";
+
+        Market market = new Market();
+        market.A();
+
+        
+
+      /*  Console.Title = "Breathing Animation";
         Console.CursorVisible = false;
 
         while (true)
@@ -39,6 +45,10 @@ class Program
             }
 
             Thread.Sleep(1000); // Pause for a moment at min size
-        }
+        } */
+
+
+
+
     }
 }
