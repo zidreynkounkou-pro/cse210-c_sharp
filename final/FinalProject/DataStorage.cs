@@ -2,69 +2,83 @@ using System;
 
 public class DataStorage : Expense
 {
-  private List<string> _saveData = new List<string>();
   public DataStorage(string date, double amount, string category, string notes) : base(date, amount, category, notes)
   {
   }
-
-  public DataStorage(double extra, string note) : base(extra, note){}
 
   public override double CalculateExpense()
   {
     return 0;
   }
 
-
- /* public static void SaveData()
+  public static void SaveExpenses()
   {
-    var dataList = new List<DataStorage>();
 
-    // Check if the file exists.
-    if (File.Exists("data.csv"))
-    {
-      using(StreamReader reader = new StreamReader("data.csv"))
-      {
-        string line;
-        while((line = reader.ReadLine()) != null)
-        {
-          string[] fields = line.Split(",");
-          if (fields.Length == 3) // Make sure that all the three fields exist
-          {
-            string date = fields[0];
-            double amount = double.Parse(fields[1]);
-            string category = fields[2];
-            string notes = fields[3];
-            // Add the data into the list
-            dataList.Add(new DataStorage(date, amount, category, notes));
-          }
-        }
-      }
-    }
-    // Add the new data into the list
-    foreach(var expense in _expenses)
-    {
-      string _eDate = expense._date;
-      double _eAmount = double.Parse(expense[1]);
-      string _eCategory = expense[2];
-      string _eNotes = expense[3];
-      dataList.Add(new DataStorage(_eDate, _eAmount, _eCategory, _eNotes));
-    }
-    dataList.Add(new DataStorage(_data, _amount, _category, _notes));
+    List<Expense> existingExpenses = LoadExpensesFromFile();
+    // Combine existing expenses with new expenses to avoid duplication
+    List<Expense> combineExpense = existingExpenses.Concat(_expenses).ToList();
 
     // Write the data into the data.csv file
-    using(var writer = new StreamWriter("data.csv"))
+    using(var writer = new StreamWriter("expense.csv", true))
     {
-      foreach(var data in dataList)
+      foreach(var expense in combineExpense)
       {
-        writer.WriteLine($"{data._date},{data._amount},{data._category}, {data._notes}");
+        if (expense is VariableExpense)
+        {
+          writer.WriteLine($"{"variable"}|{expense._date}|{expense._amount}|{expense._category}|{expense._notes}");
+        }
+        else if (expense is FixedExpense)
+        {
+          writer.WriteLine($"{"Fixed"}|{expense._date}|{expense._amount}|{expense._category}|{expense._notes}");
+        }
+        
       }
     }
-    Console.WriteLine("\nYour data have been stored successfully!");
-  } */
+    Console.WriteLine("\nExpenses have been saved successfully!");
+  }
 
 
-  public static void LoadData()
+  private static List<Expense> LoadExpensesFromFile()
   {
-    
+    List<Expense> existingExpenses = new List<Expense>();
+
+    if(File.Exists("expense.csv"))
+    { string [] lines = System.IO.File.ReadAllLines("expense.csv");
+     
+      foreach(var line in lines)
+      {
+        string [] fields = line.Split("|");
+       if(fields.Length == 5  && fields[0] == "Variable")// Check if fields contains 4 elements and if it is a variable expense.
+       {
+         string date = fields[1];
+         double amount = double.Parse(fields[2]);
+         string category = fields[3];
+         string notes = fields[4];
+         // Create an Expense object and add it to the list
+         existingExpenses.Add(new Expense(date, amount, category, notes));
+         Runner.variable = new VariableExpense(date, amount, category, notes);
+         Runner.variable.AddExpense(Runner.variable);
+       }
+       else if(fields.Length == 5  && fields[0] == "Fixed")// Check if fields contains 4 elements and if it is a fixed expense.
+       {
+         string date = fields[1];
+         double amount = double.Parse(fields[2]);
+         string category = fields[3];
+         string notes = fields[4];
+         // Create an Expense object and add it to the list
+         existingExpenses.Add(new Expense(date, amount, category, notes));
+         Runner.fixedExpense = new FixedExpense(date, amount, category, notes);
+         Runner.fixedExpense.AddExpense(Runner.fixedExpense);
+        }
+      } 
+    }
+    return existingExpenses;
+  }
+
+  public static List<Expense> LoadExpenses()
+  {
+    List<Expense> loadedExpenses = LoadExpensesFromFile();
+    Console.WriteLine("\nExpenses have been loaded successfully!");
+    return loadedExpenses;
   }
 }

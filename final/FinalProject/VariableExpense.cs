@@ -3,24 +3,10 @@ using System;
 public class VariableExpense : Expense
 {
   private List<double> _variableList = new List<double>();
-  private string _receiptPhoto;
-  private string _location;
-  private double _extra;
-  private string _note;
-  private double _variableAmount;
 
-  public VariableExpense (string date, double amount, string category, string notes, string receiptPhoto, string location) : base(date, amount, category, notes)
+  public VariableExpense (string date, double amount, string category, string notes) : base(date, amount, category, notes)
   {
-    _receiptPhoto = receiptPhoto;
-    _location = location;
   }
-
-  public VariableExpense(double extra, string note) : base(extra, note)
-  {
-    _extra = extra;
-    _note = note;
-  }
-
   public override double CalculateExpense()
   {
 
@@ -33,5 +19,10 @@ public class VariableExpense : Expense
       }
     }
     return _variableList.Sum();
+  }
+
+  public void RemoveVariablaExpense()
+  {
+    _variableList.RemoveRange(0, _variableList.Count);
   }
 }

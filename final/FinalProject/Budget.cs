@@ -2,7 +2,6 @@ using System;
 
 public class Budget
 {
-  //private Budget budget;
   private static List<Budget> _budget = new List<Budget>{};
   private string _aCategory;
   private double _anAmount;
@@ -20,7 +19,7 @@ public class Budget
     while(setBudget != "exit")
     {
       Console.Write("\nEnter a category: ");
-      setBudget = Console.ReadLine();
+      setBudget = Console.ReadLine().ToLower();
       if (setBudget != "exit")
       {
         Console.Write($"Enter the amount for the '{setBudget}' category:");
